@@ -1,0 +1,136 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Nada demais, só o básico pra não explodir
+    testImplementation 'junit:junit:4.13.2'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// Força UTF-8 pra não dar merda no Windows
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainClass = 'chat.ChatApp'
+}
+
+// Task customizada pra rodar o servidor
+task runServer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'chat.ChatApp'
+    args = ['server']
+    standardInput = System.in
+}
+
+// Task customizada pra rodar o cliente
+task runClient(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'chat.ChatApp'
+    args = ['client']
+    standardInput = System.in
+}
+
+// Porque vida é sofrimento e build também
+jar {
+    archiveBaseName = 'DBW-Server'
+    archiveVersion = '1.0'
+    manifest {
+        attributes 'Main-Class': 'chat.ChatApp'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Task específica pra gerar JAR do servidor otimizado
+task serverJar(type: Jar) {
+    archiveBaseName = 'DBW-Server-Standalone'
+    archiveVersion = '1.0'
+    archiveClassifier = 'server'
+    
+    manifest {
+        attributes(
+            'Main-Class': 'chat.ChatApp',
+            'Implementation-Title': 'DBW - Discord But Worse Server',
+            'Implementation-Version': '1.0',
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date(),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+    
+    from sourceSets.main.output
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
+    doLast {
+        println "✅ JAR do servidor criado: ${archiveFile.get().asFile.name}"
+        println "🚀 Execute com: java -jar ${archiveFile.get().asFile.name} server 25576"
+    }
+}
+
+// Task específica pra gerar JAR do cliente otimizado
+task clientJar(type: Jar) {
+    archiveBaseName = 'DBW-Client-Standalone'
+    archiveVersion = '1.0'
+    archiveClassifier = 'client'
+    
+    manifest {
+        attributes(
+            'Main-Class': 'chat.ChatApp',
+            'Implementation-Title': 'DBW - Discord But Worse Client',
+            'Implementation-Version': '1.0',
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date(),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+    
+    from sourceSets.main.output
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
+    doLast {
+        println "✅ JAR do cliente criado: ${archiveFile.get().asFile.name}"
+        println "🚀 Execute com: java -jar ${archiveFile.get().asFile.name} client"
+    }
+}
+
+// Task pra criar ambos os JARs de uma vez
+task buildAll {
+    dependsOn 'clean', 'build', 'serverJar', 'clientJar'
+    description = 'Cria JARs separados para servidor e cliente'
+    
+    doLast {
+        println ""
+        println "🎉 BUILD COMPLETO! JARs criados:"
+        println "   📡 Servidor: build/libs/DBW-Server-Standalone-1.0-server.jar"
+        println "   💻 Cliente:  build/libs/DBW-Client-Standalone-1.0-client.jar"
+        println ""
+        println "🚀 Como usar:"
+        println "   Servidor: java -jar DBW-Server-Standalone-1.0-server.jar server"
+        println "   Cliente:  java -jar DBW-Client-Standalone-1.0-client.jar client"
+    }
+}

@@ -1,0 +1,9 @@
+# Arquivo de usuários do DBW - Discord But Worse
+# Formato: username:senha_hash:sala_atual
+# Não delete essa porra, se não tudo explode
+
+choosen:a76b7f25b6ba5ec51bd9fa42f4143b63c2495996e783baa4d9f8459d314f6ad2:1
+admin:5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8:geral
+testuser:9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08:lobby
+guest:b39f008e318efd2bb988d724a161b61c6909677f:lobby
+davi:a76b7f25b6ba5ec51bd9fa42f4143b63c2495996e783baa4d9f8459d314f6ad2:lobby
