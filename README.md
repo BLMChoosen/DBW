@@ -28,20 +28,16 @@ Principais intenções:
 
 Implementação COMPLETA e TESTADA:
 
-- ✅ **Servidor TCP multi-threaded** - Aceita múltiplos clientes simultaneamente
+- ✅ **Servidor TCP multi-threaded** - Aceita múltiplos clientes simultaneamente -- testado com: 2
 - ✅ **Sistema de autenticação SHA-256** - Registra usuário automaticamente se não existir
 - ✅ **Salas de chat dinâmicas** - Cria salas na hora, sem configuração
 - ✅ **Mensagens privadas** - `/msg username mensagem`
 - ✅ **Comandos funcionais**: `/join`, `/msg`, `/quit`, `/help`, `/users`, `/rooms`
-- ✅ **Persistência automática** - Salva usuários em `users.txt` automaticamente
-- ✅ **Interface colorida** - Terminal com cores ANSI (pra não ficar tão deprimente)
-- ✅ **Logs detalhados** - Acompanha conexões, mensagens e erros
-- ✅ **Thread-safe** - Usa ConcurrentHashMap e CopyOnWriteArrayList
-- ✅ **Graceful shutdown** - Para tudo direitinho com Ctrl+C
+- ✅ **Interface colorida** - Terminal com fru fru RGB
 
-**🔥 TESTADO E APROVADO:** Múltiplos clientes conectados, chat em tempo real, mensagens privadas, persistência de usuários. É uma bosta, mas É UMA BOSTA QUE FUNCIONA!
+**🔥 TESTADO E APROVADO:** É uma bosta, mas É UMA BOSTA QUE FUNCIONA!
 
-**⚠️ Bugs conhecidos:** Ainda é uma bosta, mas pelo menos é uma bosta funcional!
+**⚠️ Bugs conhecidos:** Ainda é uma bosta, cheia de bugs, mas pelo menos é uma bosta funcional!
 
 ## Estrutura do projeto (árvore de desastre)
 
@@ -78,13 +74,13 @@ DBW/
 
 ## Contrato mínimo (ou seja, não prometemos nada)
 
-* Entrada: conexões TCP de clientes e linhas de texto digitadas desesperadamente.
+* Entrada: conexões de clientes e linhas de texto digitadas.
 * Saída: mensagens entre clientes, com perdas, bugs e crashes inesperados.
 * Persistência: `src/main/resources/users.txt` — mais inútil que guarda-chuva em furacão.
 
 ## Como compilar e executar (ou se fuder tentando)
 
-**ATENÇÃO: O código agora existe e pode realmente funcionar (ou não)!**
+**ATENÇÃO: O código existe e pode realmente funcionar (ou não)!**
 
 ### Compilação
 
@@ -98,9 +94,6 @@ gradle buildAll
 gradle build          # Compila o código
 gradle serverJar       # Gera JAR do servidor
 gradle clientJar       # Gera JAR do cliente
-
-# Ou usa o script automático (Windows)
-.\build-all.bat
 ```
 
 ### Execução
@@ -108,9 +101,6 @@ gradle clientJar       # Gera JAR do cliente
 **Servidor** (o coração dessa bosta):
 
 ```powershell
-# Método ULTRA-FÁCIL (recomendado)
-.\start-server.bat
-
 # Método JAR direto (porta 25576 padrão)
 java -jar build\libs\DBW-Server-Standalone-1.0-server.jar server
 
@@ -121,8 +111,6 @@ java -jar build\libs\DBW-Server-Standalone-1.0-server.jar server 9999
 **Cliente** (pra você entrar nessa merda):
 
 ```powershell
-# Método ULTRA-FÁCIL (recomendado)
-.\start-client.bat
 
 # Método JAR específico do cliente (conecta em localhost:25576)
 java -jar build\libs\DBW-Client-Standalone-1.0-client.jar client
@@ -141,13 +129,13 @@ java -jar build\libs\DBW-Server-Standalone-1.0-server.jar client
 3. **Faça login** (ou registre-se na hora - é tudo automático, que bosta conveniente!).
 4. **Use /join sala** pra entrar numa sala.
 5. **Digite mensagens** normais ou use /msg pra mensagem privada.
-6. **Use /quit** quando cansar dessa merda.
+6. **Use /quit** quando cansar de falar merda sobre os professores.
 
 ## Comandos do cliente (funcionais e prontos pra quebrar)
 
 * `/join <sala>` — entra numa sala (cria se não existir) ou muda de sala.
 * `/msg <usuario|sala> <mensagem>` — manda mensagem privada ou pra sala específica.
-* `/quit` — fecha o cliente e volta pra vida real.
+* `/quit` — fecha o cliente, liberado tocar na grama.
 * `/help` — mostra ajuda (básica, mas funciona).
 * `/users` — lista quem tá online e em que sala.
 * `/rooms` — lista salas ativas com número de usuários.
@@ -184,11 +172,6 @@ Usuários online: admin (geral), fulano (lobby)
 2. ✅ ~~Implementar `ChatClient` e `MessageListener`.~~ **FEITO!**
 3. ✅ ~~Criar comandos reais em `chat.commands`.~~ **FEITO!**
 4. ✅ ~~Adicionar logs decentes~~ **FEITO!** (porque `System.out.println` agora tem estilo!)
-5. 🔄 **Em andamento:** TLS, autenticação melhor e pagar alguém pra auditar essa bosta.
-6. 🆕 **Novo:** Adicionar emojis nas mensagens porque vida sem emoji é tristeza.
-7. 🆕 **Novo:** Sistema de ban/kick porque sempre tem um chato.
-8. 🆕 **Novo:** Histórico de mensagens porque memória humana é uma bosta.
-9. 🆕 **Novo:** Interface gráfica (Swing ou JavaFX) pra quem tem preguiça de terminal.
 
 ## Como contribuir (para masoquistas de plantão)
 
@@ -202,6 +185,6 @@ Este projeto é uma **piada de mau gosto** e de aprendizado. Não use em produç
 
 ## Licença
 
-Nenhum direito reservado
+Nenhum direito reservado, Augusto e Davi
 
 ---
